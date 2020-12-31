@@ -1,0 +1,36 @@
+logs
+project/project
+project/target
+target
+tmp
+.history
+dist
+.idea
+*.iml
+/out
+.classpath
+.project
+/RUNNING_PID
+.settings
+.DS_Store
+
+# hidden cross project folders
+shared/.js
+shared/.jvm
+
+# temp files
+.~*
+*~
+*.orig
+
+# eclipse
+.scala_dependencies
+.buildpath
+.cache
+.target
+bin/
+
+# Intellij IDEA-related
+/.idea_modules
+/.idea
+/.bsp

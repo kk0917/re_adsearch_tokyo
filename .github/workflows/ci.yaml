@@ -1,0 +1,51 @@
+name: Scala CI
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          scala-version: ["2.11.12", "2.12.12", "2.13.3"]
+
+    steps:
+      - name: Scala Build ${{ matrix.scala-version }}
+      - uses: actions/checkout@v2
+        with:
+          scala-version: ${{ matrix.scala-version }}
+      - run: scala run build
+
+  lint:
+    - name: lint
+      run: ...
+
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Formatting
+        run: sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck
+      - uses: TriPSs/conventional-changelog-action@v3
+        name: Conventional Changelog Action
+         with:
+         github-token: ${{ secrets.CI_TOKEN }}
+
+  test:
+    strategy:
+      matrix:
+        scala-version: [1.6.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: sbt coverage test
+      - name: Coverage Report
+        run: sbt coverageReport
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
