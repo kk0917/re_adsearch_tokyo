@@ -8,41 +8,48 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          scala-version: ["2.11.12", "2.12.12", "2.13.3"]
+    strategy:
+      matrix:
+        scala-version: ["2.11.12", "2.12.12", "2.13.3"]
 
     steps:
       - name: Scala Build ${{ matrix.scala-version }}
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           scala-version: ${{ matrix.scala-version }}
-      - run: scala run build
+      - run: sbt
+      - run: project server
+      - run: run
 
   lint:
-    - name: lint
-      run: ...
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Scalastyle configuration
+      run: sbt scalastyleGenerateConfig
+    - name: Run Scalastyle
+      run: sbt scalastyle
 
   formatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Formatting
-        run: sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck
-      - uses: TriPSs/conventional-changelog-action@v3
-        name: Conventional Changelog Action
-         with:
-         github-token: ${{ secrets.CI_TOKEN }}
+        uses: actions/checkout@v2
+      - run: sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.CI_TOKEN }}
 
   test:
     strategy:
       matrix:
-        scala-version: [1.6.x]
+        scala-version: ["2.11.12", "2.12.12", "2.13.3"]
 
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Run tests
-        run: sbt coverage test
+        uses: actions/checkout@v2
+      - run: sbt coverage test
       - name: Coverage Report
         run: sbt coverageReport
       - name: Upload coverage to Codecov
