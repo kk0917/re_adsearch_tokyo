@@ -24,9 +24,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - name: Scalastyle
-    - run: sbt scalastyleGenerateConfig
-    - run: sbt scalastyle
+    - name: Create Scalastyle configuration
+      run: sbt scalastyleGenerateConfig
+    - name: Run Scalastyle
+      run: sbt scalastyle
 
   formatting:
     runs-on: ubuntu-latest
