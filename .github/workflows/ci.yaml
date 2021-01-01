@@ -22,8 +22,10 @@ jobs:
       - run: run
 
   lint:
+    runs-on: ubuntu-latest
+    steps:
     - name: Scalastyle
-      run: sbt scalastyleGenerateConfig
+    - run: sbt scalastyleGenerateConfig
     - run: sbt scalastyle
 
   formatting:
@@ -42,6 +44,7 @@ jobs:
       matrix:
         scala-version: ["2.11.12", "2.12.12", "2.13.3"]
 
+    runs-on: ubuntu-latest
     steps:
       - name: Run tests
         uses: actions/checkout@v2
