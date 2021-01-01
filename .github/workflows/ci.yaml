@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Scala Build ${{ matrix.scala-version }}
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           scala-version: ${{ matrix.scala-version }}
-      - run: scala run build
+        run: scala run build
 
   lint:
     - name: lint
@@ -26,13 +26,13 @@ jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Formatting
+        uses: actions/checkout@v2
         run: sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck
-      - uses: TriPSs/conventional-changelog-action@v3
-        name: Conventional Changelog Action
-         with:
-         github-token: ${{ secrets.CI_TOKEN }}
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v3
+          with:
+            github-token: ${{ secrets.CI_TOKEN }}
 
   test:
     strategy:
@@ -40,8 +40,8 @@ jobs:
         scala-version: ["2.11.12", "2.12.12", "2.13.3"]
 
     steps:
-      - uses: actions/checkout@v2
       - name: Run tests
+        uses: actions/checkout@v2
         run: sbt coverage test
       - name: Coverage Report
         run: sbt coverageReport
