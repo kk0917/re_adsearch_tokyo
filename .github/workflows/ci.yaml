@@ -23,7 +23,7 @@ jobs:
 
   lint:
     - name: Scalastyle
-    - run: sbt scalastyleGenerateConfig
+      run: sbt scalastyleGenerateConfig
     - run: sbt scalastyle
 
   formatting:
