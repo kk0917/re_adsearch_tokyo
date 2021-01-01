@@ -31,8 +31,8 @@ jobs:
         run: sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v3
-          with:
-            github-token: ${{ secrets.CI_TOKEN }}
+        with:
+          github-token: ${{ secrets.CI_TOKEN }}
 
   test:
     strategy:
