@@ -7,7 +7,9 @@ lazy val server = (project in file("server"))
     // triggers scalaJSPipeline when using compile or continuous compilation
     compile in Compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
     libraryDependencies ++= Seq(
-      "com.vmunier" %% "scalajs-scripts" % "1.1.4",
+      "com.typesafe.play" %% "play-slick"            % "5.0.0",
+      "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0",
+      "com.vmunier"       %% "scalajs-scripts"       % "1.1.4",
       guice,
       specs2 % Test
     )
